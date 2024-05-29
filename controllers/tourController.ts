@@ -26,12 +26,12 @@ export class TourController {
     try {
       let where = [];
       let sql = 'SELECT * FROM tours';
-      if (params.name) where.push(`name like '%${params.name}%'`);
+      if (params.name) where.push(`name LIKE '%${params.name}%'`);
       if (params.price) where.push(`price = ${params.price}`);
       if (params.price_from) where.push(`price >= ${params.price_from}`);
       if (params.price_to) where.push(`price <= ${params.price_to}`);
-      if (params.start_time) where.push(`start_time >= ${params.start_time}`);
-      if (params.end_time) where.push(`end_time >= ${params.end_time}`);
+      if (params.start_time) where.push(`start_time >= '${params.start_time}'`);
+      if (params.end_time) where.push(`end_time <= '${params.end_time}'`);
 
       where.push(`deleted_at IS NULL`);
       if (where.length) sql += ` where ${where.join(' and ')} ORDER BY created_at DESC`;
