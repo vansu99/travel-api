@@ -62,6 +62,7 @@ CREATE TABLE `customers` (
   `user_name` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `token` text DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
   `created_at` datetime DEFAULT curdate(),
   `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -70,9 +71,9 @@ CREATE TABLE `customers` (
 -- Đang đổ dữ liệu cho bảng `customers`
 --
 
-INSERT INTO `customers` (`customer_id`, `name`, `phone_number`, `email`, `user_name`, `password`, `token`, `created_at`, `deleted_at`) VALUES
-(1, 'Admin', '0976849539', 'admin@gmail.com', 'admin', '123456Aa@', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidHlwZSI6InVzZXIiLCJleHBpcmUiOiIyMDI0LTA1LTE2VDA4OjU2OjIyKzA3OjAwIiwiaWF0IjoxNzE1NzM4MTgyfQ.ik8FHwOAwHpGkF60hNacGZdvJrajuZMUi9kplMavlTw', '2024-05-23T13:01:45.000Z', NULL),
-(7, 'Customer 1', '0976849539', '', 'customer 1', '8a88afced3a218f436ced6f277a2d1e5', NULL, '2024-05-15 00:00:00', NULL);
+INSERT INTO `customers` (`customer_id`, `name`, `phone_number`, `email`, `user_name`, `password`, `token`, `role`, `created_at`, `deleted_at`) VALUES
+(1, 'Admin', '0976849539', 'admin@gmail.com', 'admin', '123456Aa@', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidHlwZSI6InVzZXIiLCJleHBpcmUiOiIyMDI0LTA1LTE2VDA4OjU2OjIyKzA3OjAwIiwiaWF0IjoxNzE1NzM4MTgyfQ.ik8FHwOAwHpGkF60hNacGZdvJrajuZMUi9kplMavlTw', 'admin', '2024-05-23T13:01:45.000Z', NULL),
+(7, 'Customer 1', '0976849539', '', 'customer 1', '8a88afced3a218f436ced6f277a2d1e5', NULL, 'customer', '2024-05-15 00:00:00', NULL);
 
 -- --------------------------------------------------------
 

@@ -159,6 +159,19 @@ const routes = (conn: any) => {
     });
   });
 
+  // Tour regis cancel
+  router.post('/tour-regis/cancel', async (req, res, next) => {
+    const params = req.body;
+
+    const result = await tourRegisController.cancel(params.id, params.customer_id);
+
+    return res.json({
+      status: result.status,
+      message: result.message,
+      data: result.data,
+    });
+  });
+
   // Tour regis create
   router.post('/tour-regis/detail', async (req, res, next) => {
     if (req.body.id) {

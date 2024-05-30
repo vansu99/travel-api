@@ -46,10 +46,10 @@ export class CustomerController {
       if (!isValidParam.status) return { status: false, message: isValidParam.message, data: null };
 
       // Insert
-      const sql = `INSERT INTO customers(name, phone_number, email, user_name, password) VALUES ('${name}', '${phone}', '${email}', '${username}', '${MD5(
+      const sql = `INSERT INTO customers(name, phone_number, email, user_name, password, role) VALUES ('${name}', '${phone}', '${email}', '${username}', '${MD5(
         password
-      )}')`;
-      const [result, fields] = await this._conn.execute(sql);
+      )}', 'customer')`;
+      await this._conn.execute(sql);
 
       return { status: true, message: 'Successful', data: null };
     } catch (err) {

@@ -86,6 +86,26 @@ export class TourRegisController {
     }
   }
 
+  // cancel
+  async cancel(id: number, customer_id: number) {
+    try {
+      // Check if the user is an admin
+      const customer = await this._getCustomerById(customer_id);
+      if (customer.role !== 'admin') {
+        return { status: false, message: 'Bạn không có quyền hủy tour này', data: null };
+      }
+
+      // Cancel the tour registration
+      const cancelSql = `UPDATE tour_regis_informations SET status = 'CANCELLED' WHERE tour_regis_id = ${id}`;
+      await this._conn.execute(cancelSql);
+
+      return { status: true, message: 'Hủy tour thành công', data: null };
+    } catch (err) {
+      return { status: false, message: 'Lỗi hệ thống', data: null };
+    }
+  }
+
+  // detail
   async detail(id: any) {
     try {
       const sql = `SELECT * FROM tour_regis_informations WHERE tour_regis_id = ${id}`;
