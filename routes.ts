@@ -223,7 +223,8 @@ const routes = (conn: any) => {
       params.image,
       params.location,
       params.description,
-      params.price,
+      params.price_adult,
+      params.price_child,
       params.start_time,
       params.end_time
     );
@@ -245,7 +246,8 @@ const routes = (conn: any) => {
       params.location,
       params.image,
       params.description,
-      params.price,
+      params.price_adult,
+      params.price_child,
       params.start_time,
       params.end_time
     );

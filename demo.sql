@@ -85,8 +85,9 @@ CREATE TABLE `tours` (
   `name` varchar(255) NOT NULL,
   `location` text DEFAULT NULL,
   `image` text DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `price` bigint(20) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
+  `price_adult` bigint(20) DEFAULT NULL,
+  `price_child` bigint(20) DEFAULT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT curdate(),
@@ -97,10 +98,10 @@ CREATE TABLE `tours` (
 -- Đang đổ dữ liệu cho bảng `tours`
 --
 
-INSERT INTO `tours` (`tour_id`, `name`, `location`, `image`, `description`, `price`, `start_time`, `end_time`,`created_at`, `deleted_at`) VALUES
-(2, 'Tour 1', 'Nha Trang, Khanh Hoa, Vietnam', '', 'スタイルで大切にしている事◎☆お顔周りの似あわせ☆ 肌の魅せ方を活かして似合うを見つけま', 3000000, '2024-08-21 08:50:19', '2024-09-24 08:50:19','2024-05-15 00:00:00', NULL),
-(3, 'Tour 2', 'Nha Trang, Khanh Hoa, Vietnam', '', '', 15000000, '2024-07-13 08:50:19', '2024-07-29 08:50:19','2024-05-15 00:00:00', NULL),
-(4, 'Tour 3', 'Nha Trang, Khanh Hoa, Vietnam', '', '', 14000000, '2024-07-04 08:50:19', '2024-07-29 08:50:19','2024-05-15 00:00:00', NULL);
+INSERT INTO `tours` (`tour_id`, `name`, `location`, `image`, `description`, `price_adult`, `price_child`, `start_time`, `end_time`,`created_at`, `deleted_at`) VALUES
+(2, 'Tour 1', 'Nha Trang, Khanh Hoa, Vietnam', '', 'スタイルで大切にしている', 3000000, 2000000, '2024-08-21 08:50:19', '2024-09-24 08:50:19','2024-05-15 00:00:00', NULL),
+(3, 'Tour 2', 'Nha Trang, Khanh Hoa, Vietnam', '', '', 15000000, 2000000, '2024-07-13 08:50:19', '2024-07-29 08:50:19','2024-05-15 00:00:00', NULL),
+(4, 'Tour 3', 'Nha Trang, Khanh Hoa, Vietnam', '', '', 14000000, 2000000, '2024-07-04 08:50:19', '2024-07-29 08:50:19','2024-05-15 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
