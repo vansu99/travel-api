@@ -58,24 +58,29 @@ export class TourRegisController {
   }
 
   // booking
-  async create(
-    customer_id: number,
-    tour_id: number,
-    person: number,
-    price: number,
-    start_date: string,
-    end_date: string
-  ) {
+  async create(customer_id: number, tour_id: number, person: number) {
     try {
       // Check valid
       const isValidParam = this._checkParams(customer_id, tour_id);
       if (!isValidParam.status) return { status: false, message: isValidParam.message, data: null };
 
-      // Insert
-      const sql = `INSERT INTO tour_regis_informations(customer_id, tour_id, person_quantity, price, start_date, end_date, status) VALUES (${customer_id}, ${tour_id}, ${person}, ${price}, '${start_date}', '${end_date}', 'WAITING') ORDER BY created_at DESC`;
-      await this._conn.execute(sql);
+      // Check if the user has already registered for this tour
+      const checkSql = `SELECT * FROM tour_regis_informations WHERE customer_id = ? AND tour_id = ?`;
+      const [checkResult] = await this._conn.execute(checkSql, [customer_id, tour_id]);
 
-      return { status: true, message: 'Đặt tour thành công', data: null };
+      if (checkResult.length > 0) {
+        return { status: false, message: 'Bạn đã đăng ký tour này rồi', data: null };
+      }
+
+      // Insert
+      const sql = `INSERT INTO tour_regis_informations(customer_id, tour_id, person_quantity, status) VALUES (${customer_id}, ${tour_id}, ${person}, 'WAITING') ORDER BY created_at DESC`;
+      const [insertResult] = await this._conn.execute(sql);
+      const insertedId = insertResult?.insertId;
+
+      const selectSql = `SELECT * FROM tour_regis_informations WHERE tour_regis_id = ${insertedId}`;
+      const [rows] = await await this._conn.query(selectSql);
+
+      return { status: true, message: 'Đặt tour thành công', data: rows[0] };
     } catch (err) {
       return { status: false, message: 'Lỗi hệ thống', data: null };
     }

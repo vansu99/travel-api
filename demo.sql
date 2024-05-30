@@ -114,9 +114,9 @@ CREATE TABLE `tour_regis_informations` (
   `customer_id` int(11) DEFAULT NULL,
   `tour_id` int(11) DEFAULT NULL,
   `person_quantity` smallint(6) DEFAULT NULL,
-  `price` bigint(20) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
+  -- `price` bigint(20) DEFAULT NULL,
+  -- `start_date` date DEFAULT NULL,
+  -- `end_date` date DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL, 
   `created_at` datetime DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -125,10 +125,10 @@ CREATE TABLE `tour_regis_informations` (
 -- Đang đổ dữ liệu cho bảng `tour_regis_informations`
 --
 
-INSERT INTO `tour_regis_informations` (`tour_regis_id`, `customer_id`, `tour_id`, `person_quantity`, `price`, `start_date`, `end_date`, `status`, `created_at`) VALUES
-(5, 1, 2, 3, 3000000, '2024-06-01', '2024-06-03', "DONE", '2024-05-13 00:00:00'),
-(6, 1, 5, 3, 3000000, '2024-06-01', '2024-06-03', "DONE", '2024-05-13 00:00:00'),
-(7, 1, 8, 3, 3000000, '2024-06-01', '2024-06-03', "DONE", '2024-05-15 00:00:00');
+INSERT INTO `tour_regis_informations` (`tour_regis_id`, `customer_id`, `tour_id`, `person_quantity`, `status`, `created_at`) VALUES
+(5, 1, 2, 3, "DONE", '2024-05-13 00:00:00'),
+(6, 1, 5, 3, "DONE", '2024-05-13 00:00:00'),
+(7, 1, 8, 3, "DONE", '2024-05-15 00:00:00');
 
 --
 -- Chỉ mục cho các bảng đã đổ
