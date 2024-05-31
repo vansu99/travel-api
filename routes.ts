@@ -136,7 +136,8 @@ const routes = (conn: any) => {
     const result = await tourRegisController.create(
       params.customer_id,
       params.tour_id,
-      params.person
+      params.person,
+      params.total_price
     );
 
     return res.json({
