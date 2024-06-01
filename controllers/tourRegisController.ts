@@ -61,6 +61,64 @@ export class TourRegisController {
     }
   }
 
+  // list by user
+  async listUser(params: any) {
+    try {
+      let where = [];
+      let sql = `
+            SELECT tri.*, c.name AS customer_name
+            FROM tour_regis_informations tri
+            LEFT JOIN customers c ON tri.customer_id = c.customer_id
+        `;
+
+      if (params.customer_id) {
+        where.push(`c.customer_id = '${params.customer_id}'`);
+      }
+
+      if (params.keyword) {
+        let keyword = `%${params.keyword}%`;
+        where.push(`tri.customer_id LIKE '${keyword}'`);
+        where.push(`tri.tour_id LIKE '${keyword}'`);
+        where.push(`c.name LIKE '${keyword}'`);
+      }
+
+      if (where.length) sql += ` WHERE ${where.join(' OR ')} ORDER BY tri.created_at DESC`;
+
+      const [rows] = await this._conn.query(sql);
+
+      if (rows && rows.length) {
+        let customer_list_id = rows.map((a: { customer_id: any }) => a.customer_id);
+        let tour_list_id = rows.map((a: { tour_id: any }) => a.tour_id);
+        customer_list_id = [...new Set(customer_list_id)];
+        tour_list_id = [...new Set(tour_list_id)];
+
+        const c_sql = `SELECT * FROM customers WHERE customer_id IN (${customer_list_id.join(
+          ','
+        )})`;
+        const [c_rows] = await this._conn.query(c_sql);
+
+        const t_sql = `SELECT * FROM tours WHERE tour_id IN (${tour_list_id.join(',')})`;
+        const [t_rows] = await this._conn.query(t_sql);
+
+        for await (let tour of rows) {
+          tour.customer = c_rows.find(
+            (a: { customer_id: any }) => a.customer_id == tour.customer_id
+          );
+          tour.tour = t_rows.find((a: { tour_id: any }) => a.tour_id == tour.tour_id);
+        }
+      }
+
+      return {
+        status: true,
+        message: 'Lấy danh sách tour đăng ký thành công',
+        data: rows,
+      };
+    } catch (err) {
+      console.log('Lỗi tour reis controller list', err);
+      return { status: false, message: 'Lỗi hệ thống', data: null };
+    }
+  }
+
   // booking
   async create(customer_id: number, tour_id: number, person: number, total_price: number) {
     try {
@@ -80,8 +138,7 @@ export class TourRegisController {
       // Check if the user has already registered for this tour
       const checkSql = `SELECT * FROM tour_regis_informations WHERE customer_id = ? AND tour_id = ?`;
       const [checkResult] = await this._conn.execute(checkSql, [customer_id, tour_id]);
-
-      if (checkResult.length > 0) {
+      if (checkResult.length > 0 && checkResult[0]?.status === 'WAITING') {
         return { status: false, message: 'Bạn đã đăng ký tour này rồi', data: null };
       }
 
@@ -175,10 +232,11 @@ export class TourRegisController {
         `,
       };
 
-      await transport.sendMail(mailOptions);
+      // await transport.sendMail(mailOptions);
 
       return { status: true, message: 'Đặt tour thành công', data: data };
     } catch (err) {
+      console.log('>>> test err ', err);
       return { status: false, message: 'Lỗi hệ thống', data: null };
     }
   }

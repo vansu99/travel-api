@@ -129,6 +129,18 @@ const routes = (conn: any) => {
     });
   });
 
+  // Tour regis list by user
+  router.post('/tour-regis/list-user', async (req, res, next) => {
+    const params = req.body;
+    const result = await tourRegisController.listUser(params);
+
+    return res.json({
+      status: result.status,
+      message: result.message,
+      data: result.data,
+    });
+  });
+
   // Tour regis create
   router.post('/tour-regis/create', async (req, res, next) => {
     const params = req.body;
