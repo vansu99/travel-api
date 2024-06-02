@@ -132,6 +132,20 @@ INSERT INTO `tour_regis_informations` (`tour_regis_id`, `code`, `customer_id`, `
 (6, '20240601234677', 1, 5, 3, 3000000, "DONE", '2024-05-13 00:00:00'),
 (7, '20240601678693', 1, 8, 3, 3000000, "DONE", '2024-05-15 00:00:00');
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `analysis`
+--
+
+CREATE TABLE `analysis` (
+  `analysis_id` int(11) NOT NULL,
+  `total` bigint(20) DEFAULT NULL,
+  `filter_by` varchar(20) DEFAULT NULL, 
+  `date` datetime DEFAULT curdate(),
+  `created_at` datetime DEFAULT curdate()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
@@ -161,6 +175,13 @@ ALTER TABLE `tour_regis_informations`
   ADD PRIMARY KEY (`tour_regis_id`);
 
 --
+-- Chỉ mục cho bảng `analysis`
+--
+ALTER TABLE `analysis`
+  ADD PRIMARY KEY (`analysis_id`);
+
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -187,6 +208,13 @@ ALTER TABLE `tours`
 --
 ALTER TABLE `tour_regis_informations`
   MODIFY `tour_regis_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+COMMIT;
+
+--
+-- AUTO_INCREMENT cho bảng `analysis`
+--
+ALTER TABLE `analysis`
+  MODIFY `analysis_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

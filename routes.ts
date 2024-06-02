@@ -1,9 +1,9 @@
 import express from 'express';
-import mysql from 'mysql2/promise';
 import { CustomerController } from './controllers/customerController';
 import { TourController } from './controllers/tourController';
 import { TourRegisController } from './controllers/tourRegisController';
 import { AdvertiseController } from './controllers/advertiseController';
+import { AnalysisController } from './controllers/analysisController';
 
 const routes = (conn: any) => {
   const router = express.Router();
@@ -12,6 +12,31 @@ const routes = (conn: any) => {
   const tourController = new TourController(conn);
   const tourRegisController = new TourRegisController(conn);
   const advertiseController = new AdvertiseController(conn);
+  const analysisController = new AnalysisController(conn);
+
+  // Analysis total price
+  router.post('/analysis-price', async (req, res, next) => {
+    const params = req.body;
+    const result = await analysisController.analysisTotalPrice(params);
+
+    return res.json({
+      status: result.status,
+      message: result.message,
+      data: result.data,
+    });
+  });
+
+  // Analysis total quantity
+  router.post('/analysis-quantity', async (req, res, next) => {
+    const params = req.body;
+    const result = await analysisController.analysisQuantityTour(params);
+
+    return res.json({
+      status: result.status,
+      message: result.message,
+      data: result.data,
+    });
+  });
 
   // Customer login
   router.post('/login', async (req, res, next) => {
